@@ -1,0 +1,51 @@
+{
+  parserClass='com.activemesa.verilog.parser.VerilogParser'
+  parserImports=[]
+  psiPackage='com.activemesa.verilog.psi'
+  psiImplPackage='com.activemesa.verilog.psi.impl'
+  psiImplUtilClass='com.activemesa.verilog.psi.impl.ClojurePsiImplUtil'
+  psiClassPrefix='V'
+  psiVisitorName='VerilogVisitor'
+
+  tokens=[
+    whitespace='regexp:\s+'
+    //line_comment='regexp:;.*'
+    string='regexp:"([^"]|\\")*"'
+    string_unclosed='regexp:"([^"]|\\")*'
+    number='regexp:\d\d?r[\da-zA-Z]+|M?\d+(\.\d*([eE]\d+)?)?'
+    ratio='regexp:\d+/\d+'
+    char='regexp:\\(u\d{4}|newline|space|backspace|return|.)'
+    bool="regexp:true|false"
+    nil='nil'
+    sym="regexp:[\w.<>$%&=*/+\-!?_'[^\d]][\w.<>$%&=*/+\-!?_']*(:[\w<>$%&=*/+\-!?_'])+)?"
+    sharp_hat="#^"
+    sharp_quote="#'"
+    sharp_comment="#_"
+    sharp_qmark="#?"
+    sharp_qmark_at="#?@"
+    sharp_eq="#="
+    sharp_ns="#:"
+
+    question_mark='?'
+    paren1='('
+    paren2=')'
+    bracket1='['
+    bracket2=']'
+    brace1='{'
+    brace2='}'
+    colon=':'
+    coloncolon='::'
+    comma=','
+    quote="'"
+    syntax_quote="`"
+    sharp="#"
+    hat="^"
+    tilde="~"
+    tilde_at="~@"
+    at="@"
+
+    dot='.'
+    dotdash='.-'
+    slash='/'
+  ]
+}
