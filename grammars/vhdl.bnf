@@ -1,0 +1,77 @@
+{
+  parserClass='com.activemesa.hdline.vhdl.parser.VhdlParser'
+  parserImports=[]
+  psiPackage='com.activemesa.hdline.vhdl.psi'
+  psiImplPackage='com.activemesa.hdline.vhdl.psi.impl'
+  psiClassPrefix='VH'
+  psiVisitorName='VhdlVisitor'
+
+  tokens=[
+    comment='regexp:--[^\\r\\n]*'
+    string='regexp:"([^"\\r\\n]|"")*"'
+    character_literal="regexp:'[^\\r\\n']'"
+    number='regexp:[0-9][0-9_]*'
+    extended_identifier='regexp:\\\\[^\\r\\n\\\\]+\\\\'
+    identifier='regexp:[a-zA-Z](?:[a-zA-Z0-9]|_(?=[a-zA-Z0-9]))*'
+
+    entity='entity'
+    architecture='architecture'
+    is='is'
+    begin='begin'
+    end='end'
+    port='port'
+    signal='signal'
+    process='process'
+    of='of'
+    in='in'
+    out='out'
+    downto='downto'
+    to='to'
+    std_logic='std_logic'
+    std_logic_vector='std_logic_vector'
+
+    lparen='('
+    rparen=')'
+    colon=':'
+    semicolon=';'
+    comma=','
+    dot='.'
+    assign='<='
+    arrow='=>'
+    plus='+'
+    minus='-'
+    star='*'
+    slash='/'
+    amp='&'
+  ]
+}
+
+design_file ::= design_unit*
+private design_unit ::= entity_declaration | architecture_body
+
+entity_declaration ::= entity identifier_reference is port_clause? end entity? identifier_reference? semicolon
+port_clause ::= port lparen interface_signal_declaration (semicolon interface_signal_declaration)* rparen semicolon
+interface_signal_declaration ::= identifier_list colon mode subtype_indication
+private mode ::= in | out
+
+architecture_body ::= architecture identifier_reference of identifier_reference is architecture_declarative_part begin concurrent_statement* end architecture? identifier_reference? semicolon
+private architecture_declarative_part ::= signal_declaration*
+signal_declaration ::= signal identifier_list colon subtype_indication semicolon
+
+private concurrent_statement ::= signal_assignment | process_statement
+signal_assignment ::= identifier_reference assign expression semicolon
+process_statement ::= process begin sequential_statement* end process semicolon
+private sequential_statement ::= signal_assignment
+
+private subtype_indication ::= std_logic | std_logic_vector lparen range_constraint rparen | identifier_reference
+private range_constraint ::= expression downto expression | expression to expression
+private expression ::= primary (binary_operator primary)*
+private binary_operator ::= plus | minus | star | slash | amp
+private primary ::= identifier_reference | number_literal | string_literal | character_literal_token | parenthesized_expression
+private parenthesized_expression ::= lparen expression rparen
+
+identifier_reference ::= identifier | extended_identifier
+number_literal ::= number
+string_literal ::= string
+character_literal_token ::= character_literal
+private identifier_list ::= identifier_reference (comma identifier_reference)*

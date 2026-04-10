@@ -1,0 +1,23 @@
+<idea-plugin>
+  <id>com.activemesa.hdline</id>
+  <name>HDLine</name>
+  <vendor>ActiveMesa</vendor>
+  <description>Minimal Verilog and VHDL language support.</description>
+
+  <depends>com.intellij.modules.lang</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileType
+        name="Verilog File"
+        implementationClass="com.activemesa.hdline.verilog.lang.VerilogFileType"
+        fieldName="INSTANCE"
+        language="Verilog"
+        extensions="v;vh"/>
+    <fileType
+        name="VHDL File"
+        implementationClass="com.activemesa.hdline.vhdl.lang.VhdlFileType"
+        fieldName="INSTANCE"
+        language="VHDL"
+        extensions="vhd;vhdl"/>
+  </extensions>
+</idea-plugin>
