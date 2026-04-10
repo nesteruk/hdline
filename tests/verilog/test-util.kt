@@ -1,4 +1,4 @@
-package com.activemesa.verilog.lang
+package com.activemesa.hdline.verilog.lang
 
 import com.intellij.openapi.util.io.FileUtil
 import java.io.File

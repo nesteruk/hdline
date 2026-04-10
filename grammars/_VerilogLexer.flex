@@ -1,8 +1,7 @@
-package com.activemesa.verilog.parser;
+package com.activemesa.hdline.verilog.parser;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import org.intellij.grammar.psi.BnfTypes;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -23,59 +22,64 @@ import static generated.GeneratedTypes.*;
 %type IElementType
 %unicode
 
-EOL=\R
-WHITE_SPACE=\s+
-
-WHITESPACE=[ \t\n\x0B\f\r]+
-STRING=\"([^\"]|\\\")*\"
-STRING_UNCLOSED=\"([^\"]|\\\")*
-NUMBER=[0-9][0-9]?r[\da-zA-Z]+|M?[0-9]+(\.[0-9]*([eE][0-9]+)?)?
-RATIO=[0-9]+"/"[0-9]+
-CHAR=\\(u[0-9]{4}|newline|space|backspace|return|.)
-BOOL=true|false
-SYM=[\w.<>$%&=*/+\-!?_'[^\d]][\w.<>$%&=*/+\-!?_']*(:[\w<>$%&=*/+\-!?_'])+)?
+WHITE_SPACE=[ \t\n\x0B\f\r]+
+LINE_COMMENT="//"[^\r\n]*
+BLOCK_COMMENT="/\\*"([^*]|\\*+[^*/])*\\*+"/"
+STRING=\"([^\"\\\r\n]|\\.)*\"
+SIZED_NUMBER=([0-9][0-9_]*)?\'[sS]?[dDhHoObB][0-9a-fA-F_xXzZ?]+
+UNSIZED_NUMBER=[0-9][0-9_]*
+ESCAPED_IDENTIFIER=\\[^ \t\n\r\f]+
+IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_$]*
+DIRECTIVE=\`[a-zA-Z_][a-zA-Z0-9_$]*
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}          { return WHITE_SPACE; }
-
-  "nil"                  { return NIL; }
-  "#^"                   { return SHARP_HAT; }
-  "#'"                   { return SHARP_QUOTE; }
-  "#_"                   { return SHARP_COMMENT; }
-  "#?"                   { return SHARP_QMARK; }
-  "#?@"                  { return SHARP_QMARK_AT; }
-  "#="                   { return SHARP_EQ; }
-  "#:"                   { return SHARP_NS; }
-  "("                    { return PAREN1; }
-  ")"                    { return PAREN2; }
-  "["                    { return BRACKET1; }
-  "]"                    { return BRACKET2; }
-  "{"                    { return BRACE1; }
-  "}"                    { return BRACE2; }
-  ":"                    { return COLON; }
-  "::"                   { return COLONCOLON; }
-  ","                    { return COMMA; }
-  "'"                    { return QUOTE; }
-  "`"                    { return SYNTAX_QUOTE; }
-  "#"                    { return SHARP; }
-  "^"                    { return HAT; }
-  "~"                    { return TILDE; }
-  "~@"                   { return TILDE_AT; }
-  "@"                    { return AT; }
-  "."                    { return DOT; }
-  ".-"                   { return DOTDASH; }
-  "/"                    { return SLASH; }
-
-  {WHITESPACE}           { return WHITESPACE; }
+  {LINE_COMMENT}         { return LINE_COMMENT; }
+  {BLOCK_COMMENT}        { return BLOCK_COMMENT; }
   {STRING}               { return STRING; }
-  {STRING_UNCLOSED}      { return STRING_UNCLOSED; }
-  {NUMBER}               { return NUMBER; }
-  {RATIO}                { return RATIO; }
-  {CHAR}                 { return CHAR; }
-  {BOOL}                 { return BOOL; }
-  {SYM}                  { return SYM; }
+  {SIZED_NUMBER}         { return NUMBER; }
+  {UNSIZED_NUMBER}       { return NUMBER; }
+  {ESCAPED_IDENTIFIER}   { return ESCAPED_IDENTIFIER; }
+  {DIRECTIVE}            { return DIRECTIVE; }
 
+  "module"               { return MODULE; }
+  "endmodule"            { return ENDMODULE; }
+  "input"                { return INPUT; }
+  "output"               { return OUTPUT; }
+  "wire"                 { return WIRE; }
+  "reg"                  { return REG; }
+  "assign"               { return ASSIGN; }
+  "always"               { return ALWAYS; }
+  "initial"              { return INITIAL; }
+  "begin"                { return BEGIN; }
+  "end"                  { return END; }
+
+  {IDENTIFIER}           { return IDENTIFIER; }
+
+  "("                    { return LPAREN; }
+  ")"                    { return RPAREN; }
+  "["                    { return LBRACKET; }
+  "]"                    { return RBRACKET; }
+  "{"                    { return LBRACE; }
+  "}"                    { return RBRACE; }
+  ";"                    { return SEMICOLON; }
+  ":"                    { return COLON; }
+  ","                    { return COMMA; }
+  "."                    { return DOT; }
+  "@"                    { return AT; }
+  "#"                    { return HASH; }
+  "?"                    { return QUESTION; }
+  "="                    { return EQ; }
+  "+"                    { return PLUS; }
+  "-"                    { return MINUS; }
+  "*"                    { return STAR; }
+  "/"                    { return SLASH; }
+  "%"                    { return PERCENT; }
+  "&"                    { return AMP; }
+  "|"                    { return PIPE; }
+  "^"                    { return CARET; }
+  "~"                    { return TILDE; }
 }
 
 [^] { return BAD_CHARACTER; }

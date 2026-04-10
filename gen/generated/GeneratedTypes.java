@@ -1,49 +1,53 @@
 // This is a generated file. Not intended for manual editing.
 package generated;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
-import com.activemesa.verilog.psi.impl.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
 
 public interface GeneratedTypes {
 
-
+  IElementType ALWAYS = new IElementType("always", null);
+  IElementType AMP = new IElementType("&", null);
+  IElementType ASSIGN = new IElementType("assign", null);
   IElementType AT = new IElementType("@", null);
-  IElementType BOOL = new IElementType("bool", null);
-  IElementType BRACE1 = new IElementType("{", null);
-  IElementType BRACE2 = new IElementType("}", null);
-  IElementType BRACKET1 = new IElementType("[", null);
-  IElementType BRACKET2 = new IElementType("]", null);
-  IElementType CHAR = new IElementType("char", null);
+  IElementType BEGIN = new IElementType("begin", null);
+  IElementType BLOCK_COMMENT = new IElementType("block_comment", null);
+  IElementType CARET = new IElementType("^", null);
   IElementType COLON = new IElementType(":", null);
-  IElementType COLONCOLON = new IElementType("::", null);
   IElementType COMMA = new IElementType(",", null);
+  IElementType DIRECTIVE = new IElementType("directive", null);
   IElementType DOT = new IElementType(".", null);
-  IElementType DOTDASH = new IElementType(".-", null);
-  IElementType E = new IElementType("E", null);
-  IElementType HAT = new IElementType("^", null);
-  IElementType NIL = new IElementType("nil", null);
+  IElementType END = new IElementType("end", null);
+  IElementType ENDMODULE = new IElementType("endmodule", null);
+  IElementType EQ = new IElementType("=", null);
+  IElementType ESCAPED_IDENTIFIER = new IElementType("escaped_identifier", null);
+  IElementType HASH = new IElementType("#", null);
+  IElementType IDENTIFIER = new IElementType("identifier", null);
+  IElementType INITIAL = new IElementType("initial", null);
+  IElementType INPUT = new IElementType("input", null);
+  IElementType LBRACE = new IElementType("{", null);
+  IElementType LBRACKET = new IElementType("[", null);
+  IElementType LINE_COMMENT = new IElementType("line_comment", null);
+  IElementType LPAREN = new IElementType("(", null);
+  IElementType MINUS = new IElementType("-", null);
+  IElementType MODULE = new IElementType("module", null);
   IElementType NUMBER = new IElementType("number", null);
-  IElementType PAREN1 = new IElementType("(", null);
-  IElementType PAREN2 = new IElementType(")", null);
-  IElementType QUOTE = new IElementType("'", null);
-  IElementType RATIO = new IElementType("ratio", null);
-  IElementType SHARP = new IElementType("#", null);
-  IElementType SHARP_COMMENT = new IElementType("#_", null);
-  IElementType SHARP_EQ = new IElementType("#=", null);
-  IElementType SHARP_HAT = new IElementType("#^", null);
-  IElementType SHARP_NS = new IElementType("#:", null);
-  IElementType SHARP_QMARK = new IElementType("#?", null);
-  IElementType SHARP_QMARK_AT = new IElementType("#?@", null);
-  IElementType SHARP_QUOTE = new IElementType("#'", null);
+  IElementType OUTPUT = new IElementType("output", null);
+  IElementType PERCENT = new IElementType("%", null);
+  IElementType PIPE = new IElementType("|", null);
+  IElementType PLUS = new IElementType("+", null);
+  IElementType QUESTION = new IElementType("?", null);
+  IElementType RBRACE = new IElementType("}", null);
+  IElementType RBRACKET = new IElementType("]", null);
+  IElementType REG = new IElementType("reg", null);
+  IElementType RPAREN = new IElementType(")", null);
+  IElementType SEMICOLON = new IElementType(";", null);
   IElementType SLASH = new IElementType("/", null);
+  IElementType STAR = new IElementType("*", null);
   IElementType STRING = new IElementType("string", null);
-  IElementType STRING_UNCLOSED = new IElementType("string_unclosed", null);
-  IElementType SYM = new IElementType("sym", null);
-  IElementType SYNTAX_QUOTE = new IElementType("`", null);
   IElementType TILDE = new IElementType("~", null);
-  IElementType TILDE_AT = new IElementType("~@", null);
+  IElementType WIRE = new IElementType("wire", null);
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {

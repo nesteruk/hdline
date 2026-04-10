@@ -1,51 +1,91 @@
 {
-  parserClass='com.activemesa.verilog.parser.VerilogParser'
+  parserClass='com.activemesa.hdline.verilog.parser.VerilogParser'
   parserImports=[]
-  psiPackage='com.activemesa.verilog.psi'
-  psiImplPackage='com.activemesa.verilog.psi.impl'
-  psiImplUtilClass='com.activemesa.verilog.psi.impl.ClojurePsiImplUtil'
+  psiPackage='com.activemesa.hdline.verilog.psi'
+  psiImplPackage='com.activemesa.hdline.verilog.psi.impl'
   psiClassPrefix='V'
   psiVisitorName='VerilogVisitor'
 
   tokens=[
-    whitespace='regexp:\s+'
-    //line_comment='regexp:;.*'
-    string='regexp:"([^"]|\\")*"'
-    string_unclosed='regexp:"([^"]|\\")*'
-    number='regexp:\d\d?r[\da-zA-Z]+|M?\d+(\.\d*([eE]\d+)?)?'
-    ratio='regexp:\d+/\d+'
-    char='regexp:\\(u\d{4}|newline|space|backspace|return|.)'
-    bool="regexp:true|false"
-    nil='nil'
-    sym="regexp:[\w.<>$%&=*/+\-!?_'[^\d]][\w.<>$%&=*/+\-!?_']*(:[\w<>$%&=*/+\-!?_'])+)?"
-    sharp_hat="#^"
-    sharp_quote="#'"
-    sharp_comment="#_"
-    sharp_qmark="#?"
-    sharp_qmark_at="#?@"
-    sharp_eq="#="
-    sharp_ns="#:"
+    block_comment='regexp:/\\*([^*]|\\*+[^*/])*\\*+/'
+    line_comment='regexp://[^\\r\\n]*'
+    string='regexp:"([^"\\\\\\r\\n]|\\\\.)*"'
+    number="regexp:([0-9][0-9_]*)?'[sS]?[dDhHoObB][0-9a-fA-F_xXzZ?]+|[0-9][0-9_]*"
+    escaped_identifier='regexp:\\\\[^\\s]+'
+    identifier='regexp:[a-zA-Z_][a-zA-Z0-9_$]*'
+    directive='regexp:`[a-zA-Z_][a-zA-Z0-9_$]*'
 
-    question_mark='?'
-    paren1='('
-    paren2=')'
-    bracket1='['
-    bracket2=']'
-    brace1='{'
-    brace2='}'
+    module='module'
+    endmodule='endmodule'
+    input='input'
+    output='output'
+    wire='wire'
+    reg='reg'
+    assign='assign'
+    always='always'
+    initial='initial'
+    begin='begin'
+    end='end'
+
+    lparen='('
+    rparen=')'
+    lbracket='['
+    rbracket=']'
+    lbrace='{'
+    rbrace='}'
+    semicolon=';'
     colon=':'
-    coloncolon='::'
     comma=','
-    quote="'"
-    syntax_quote="`"
-    sharp="#"
-    hat="^"
-    tilde="~"
-    tilde_at="~@"
-    at="@"
-
     dot='.'
-    dotdash='.-'
+    at='@'
+    hash='#'
+    question='?'
+    eq='='
+    plus='+'
+    minus='-'
+    star='*'
     slash='/'
+    percent='%'
+    amp='&'
+    pipe='|'
+    caret='^'
+    tilde='~'
   ]
 }
+
+source_text ::= description*
+private description ::= module_declaration
+
+module_declaration ::= module identifier_reference module_port_list? semicolon module_item* endmodule
+module_port_list ::= lparen port_reference (comma port_reference)* rparen
+private port_reference ::= identifier_reference
+
+private module_item ::= module_port_declaration
+                      | net_declaration
+                      | reg_declaration
+                      | continuous_assign
+                      | initial_block
+                      | always_block
+
+module_port_declaration ::= (input | output) identifier_list semicolon
+net_declaration ::= wire identifier_list semicolon
+reg_declaration ::= reg identifier_list semicolon
+continuous_assign ::= assign assignment_list semicolon
+assignment_list ::= assignment (comma assignment)*
+assignment ::= identifier_reference eq expression
+
+initial_block ::= initial statement_or_block
+always_block ::= always statement_or_block
+private statement_or_block ::= begin statement* end | statement
+private statement ::= assignment semicolon
+
+private expression ::= primary (binary_operator primary)*
+private binary_operator ::= plus | minus | star | slash | percent | amp | pipe | caret
+private primary ::= identifier_reference | number_literal | string_literal | concatenation | parenthesized_expression
+private parenthesized_expression ::= lparen expression rparen
+private concatenation ::= lbrace expression (comma expression)+ rbrace
+
+identifier_reference ::= identifier | escaped_identifier
+number_literal ::= number
+string_literal ::= string
+private identifier_list ::= identifier_reference (comma identifier_reference)*

@@ -1,4 +1,4 @@
-package com.activemesa.verilog.lang
+package com.activemesa.hdline.verilog.lang
 
 import com.intellij.lexer.Lexer
 import com.intellij.testFramework.LexerTestCase
